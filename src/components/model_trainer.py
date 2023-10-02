@@ -1,5 +1,6 @@
 import os
 import sys
+import numpy as np
 from dataclasses import dataclass
 from src.exception import CustomException
 from src.logger import logging
@@ -35,19 +36,25 @@ class ModelTrainer:
                 test_array[:,-1]
             )
             models = {
-                "LogisticRegression" : LogisticRegression(),
-                "KNeighborsClassifier" : KNeighborsClassifier(),
-                "GaussianNB" : GaussianNB(),
-                "DecisionTreeClassifier" :DecisionTreeClassifier(),
-                "RandomForestClassifier" :RandomForestClassifier(),
-                "GradientBoostingClassifier" :GradientBoostingClassifier(),
-                "AdaBoostClassifier" : AdaBoostClassifier(),
-                "ExtraTreesClassifier" : ExtraTreesClassifier(),
-                "SVC" : SVC()
+                    "Gaussian NB": GaussianNB(),
+
+                    "Random Forest": RandomForestClassifier(random_state=99, n_jobs=-1),
             }
 
+            # Define the parameters for each model
+            params = {
+                "Gaussian NB": {
+                    'var_smoothing': [1e-2, 1e-3, 1e-4, 1e-6]
+                },
+                
+                "Random Forest": {
+                    'max_depth': [1, 2, 3, 4, 5]                
+                }      
+            }
+            
+
             model_report:dict = evaluate_models(X_train=X_train, y_train=y_train, x_test=x_test,
-                                                y_test=y_test, models=models)
+                                                y_test=y_test, models=models, param=params)
             # To get best model score from dict
             best_model_score = max(sorted(model_report.values()))
 
@@ -55,7 +62,8 @@ class ModelTrainer:
             best_model_name = list(model_report.keys())[
                 list(model_report.values()).index(best_model_score)
             ]   
-            best_model = models[best_model_name]         
+            best_model = models[best_model_name]  
+            print(best_model)       
 
             if best_model_score<0.6:
                 raise CustomException("No best model found")

@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Health Information</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("https://i0.wp.com/pswordpress-production.s3.amazonaws.com/2020/10/AdobeStock_105393551-smaller.jpg?fit=1800%2C1200&ssl=1");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+    
+        h1 {
+            text-align: center;
+            padding-top: 20px;
+            color: #fff;
+        }
+    
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+    
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .radio-row {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Add new styles for drop-down menus */
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Center the submit button */
+        .submit-button {
+            display: flex;
+            justify-content: center;
+        }
+    </style>    
+
+</head>
+<body>
+    <h1>Heart Health Information</h1>
+    <form action="{{ url_for('predict_datapoint')}}" method="post">
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age"><br><br>
+
+        <!-- Combine "Sex" radio buttons in one row -->
+        <div class="radio-row">
+            <label>Sex:</label>
+            <input type="radio" id="sex_0" name="sex" value="0">
+            <label for="sex_0">Male</label>
+            <input type="radio" id="sex_1" name="sex" value="1">
+            <label for="sex_1">Female</label>
+        </div><br>
+
+        <label for="trestbps">Resting Blood Pressure (mm Hg):</label>
+        <input type="number" id="trestbps" name="trestbps" min="0" max="200"><br><br>
+
+        <label for="chol">Cholesterol (mg/dL):</label>
+        <input type="number" id="chol" name="chol" min="0" max="600"><br><br>
+
+        <!-- Combine "Fasting Blood Sugar" radio buttons in one row -->
+        <div class="radio-row">
+            <label>Fasting Blood Sugar (fbs):</label>
+            <input type="radio" id="fbs_0" name="fbs" value="0">
+            <label for="fbs_0">Less than 120 mg/dL</label>
+            <input type="radio" id="fbs_1" name="fbs" value="1">
+            <label for="fbs_1">Greater than or equal to 120 mg/dL</label>
+        </div><br>
+
+        <label for="thalach">Maximum Heart Rate (thalach):</label>
+        <input type="number" id="thalach" name="thalach" min="0" max="220"><br><br>
+
+        <label for="oldpeak">ST Depression (oldpeak):</label>
+        <input type="number" id="oldpeak" name="oldpeak" min="0" max="7" step="0.01"><br><br>
+
+        <!-- Chest Pain Type as a dropdown menu -->
+        <label for="cp">Chest Pain Type (cp):</label>
+        <select id="cp" name="cp">
+            <option value="0">Typical Angina</option>
+            <option value="1">Atypical Angina</option>
+            <option value="2">Non-anginal Pain</option>
+            <option value="3">Asymptomatic</option>
+        </select><br><br>
+
+        <!-- Slope of the ST Segment as a dropdown menu -->
+        <label for="slope">Slope of the ST Segment:</label>
+        <select id="slope" name="slope">
+            <option value="0">Upsloping</option>
+            <option value="1">Flat</option>
+            <option value="2">Downsloping</option>
+        </select><br><br>
+
+        <!-- Thalassemia Type as a dropdown menu -->
+        <label for="thal">Thalassemia Type:</label>
+        <select id="thal" name="thal">
+            <option value="3">Normal</option>
+            <option value="6">Fixed Defect</option>
+            <option value="7">Reversible Defect</option>
+        </select><br><br>
+
+        <label for="restecg">Resting Electrocardiographic Results (restecg):</label><br>
+        <select id="restecg" name="restecg">
+            <option value="0">Normal</option>
+            <option value="1">ST-T Wave Abnormality</option>
+            <option value="2">Left Ventricular Hypertrophy</option>
+        </select><br><br>
+
+        <div class="radio-row">
+            <label for="exang">Exercise-Induced Angina (exang):</label>
+            <input type="radio" id="exang_0" name="exang" value="0">
+            <label for="exang_0">No</label>
+            <input type="radio" id="exang_1" name="exang" value="1">
+            <label for="exang_1">Yes</label>
+        </div><br>
+
+        <label for="ca">Number of Major Vessels (ca):</label><br>
+        <select id="ca" name="ca">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select><br><br>
+
+        <div class="submit-button">
+            <input type="submit" value="Submit">
+        </div>
+
+        <h2 id="result-message" style="display: none;"></h2> <!-- Initially hidden -->
+
+    </form>
+    <!-- JavaScript to display result message -->
+    <script>
+        var results = "{{results}}"; // Get the result value from your backend
+
+        if (results === "0") {
+            document.getElementById("result-message").innerHTML = "No heart disease";
+        } else if (results === "1") {
+            document.getElementById("result-message").innerHTML = "You have heart disease";
+        }
+
+        // Display the result message
+        document.getElementById("result-message").style.display = "block";
+    </script>
+</body>
+</html>

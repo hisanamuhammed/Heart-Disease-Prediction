@@ -33,7 +33,7 @@ class DataTransformation:
             #Categorical Pipeline
             cat_column = ['cp','slope','thal']
             cat_pipeline = Pipeline([
-                    ('onehot', OneHotEncoder(drop='first', sparse_output=False))
+                    ('onehot', OneHotEncoder(drop='first', sparse_output=False, handle_unknown='ignore'))
             ])
 
             # Combines both pipelines into Transformer
