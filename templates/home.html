@@ -91,10 +91,30 @@
             display: flex;
             justify-content: center;
         }
-    </style>    
+    </style>  
+     <!-- Add Bootstrap CSS link here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">  
 
 </head>
 <body>
+    <!-- Bootstrap Modal for Result -->
+    <div class="modal fade" id="result-modal" tabindex="-1" role="dialog" aria-labelledby="result-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="result-modal-label">Heart Disease Prediction Result</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center"> <!-- Center-align content -->
+                    <p id="result-message" style="font-weight: bold; color: red;"></p> <!-- Make the message bold -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End  Bootstrap Modal for Result -->
+
     <h1>Heart Health Information</h1>
     <form action="{{ url_for('predict_datapoint')}}" method="post">
         <label for="age">Age:</label>
@@ -185,23 +205,36 @@
         <h2 id="result-message" style="display: none;"></h2> <!-- Initially hidden -->
 
     </form>
-    <!-- JavaScript to display result message -->
+
+    <!--
     <h2>
         THE  prediction is {{results}}
-    </h2>
-    <!--
-    <script>
-        var results = "{{results}}"; // Get the result value from your backend
+    </h2>-->
 
-        if (results === "0") {
-            document.getElementById("result-message").innerHTML = "No heart disease";
-        } else if (results === "1") {
-            document.getElementById("result-message").innerHTML = "You have heart disease";
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript to display the modal -->
+    <script>
+        function showModal(message) {
+            $('#result-message').text(message);
+            $('#result-modal').modal('show');
         }
 
-        // Display the result message
-        document.getElementById("result-message").style.display = "block";
+        $('form').submit(function (event) {
+            event.preventDefault(); // Prevent the form from actually submitting
+
+            // Simulated result for demonstration purposes
+            const predictionResult = Math.random() < 0.5 ? 0 : 1;
+
+            const message = predictionResult === 0
+                ? "You have heart disease."
+                : "You don't have heart disease.";
+
+            showModal(message);
+        });
     </script>
-    -->
+      
 </body>
 </html>
